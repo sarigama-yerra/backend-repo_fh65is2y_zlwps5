@@ -8,13 +8,13 @@ Each Pydantic model represents a collection in your database.
 Model name is converted to lowercase for the collection name:
 - User -> "user" collection
 - Product -> "product" collection
-- BlogPost -> "blogs" collection
+- BlogPost -> "blogpost" collection
 """
 
 from pydantic import BaseModel, Field
 from typing import Optional
 
-# Example schemas (replace with your own):
+# Example schemas (you may add more as your app grows):
 
 class User(BaseModel):
     """
@@ -38,11 +38,13 @@ class Product(BaseModel):
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
 
-# Add your own schemas here:
-# --------------------------------------------------
-
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+# COTY (Coin of the Year) voting app schemas
+class Coin(BaseModel):
+    """
+    Coins available for voting
+    Collection name: "coin"
+    """
+    name: str = Field(..., description="Display name of the coin")
+    symbol: str = Field(..., description="Short ticker symbol, e.g., BTC")
+    votes: int = Field(0, ge=0, description="Total votes for this coin")
+    color: Optional[str] = Field(None, description="Optional hex/tailwind color for UI accents")
